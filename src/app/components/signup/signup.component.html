@@ -1,0 +1,73 @@
+<div class="text-center mt-4">
+  <form
+    class="form-signin border rounded"
+    [formGroup]="form"
+    (submit)="onSignup()"
+  >
+    <img class="mb-4" src="assets/cart.png" alt="" width="72" height="72" />
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <!-- name -->
+    <input
+      type="text"
+      formControlName="firstName"
+      id="first name"
+      class="form-control mb-1"
+      placeholder="First Name"
+      required
+      autofocus
+    />
+    <input
+      type="text"
+      formControlName="lastName"
+      id="last name"
+      class="form-control mb-1"
+      placeholder="Last Name"
+      required
+      autofocus
+    />
+    <!-- mobile number -->
+    <input
+      type="number"
+      formControlName="mobileNumber"
+      id="phone"
+      class="form-control mb-1"
+      placeholder="Phone"
+      required
+    />
+    <!-- address -->
+    <!-- <input
+      type="text"
+      id="address"
+      class="form-control mb-1"
+      placeholder="Address"
+    /> -->
+    <!-- email -->
+    <input
+      type="email"
+      formControlName="email"
+      id="inputEmail"
+      class="form-control mb-1"
+      placeholder="Email address"
+      required
+    />
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input
+      type="password"
+      formControlName="password"
+      id="inputPassword"
+      class="form-control"
+      placeholder="Password"
+      required
+    />
+    <div class="checkbox mb-3">
+      <label> <input type="checkbox" value="remember-me" /> Remember me </label>
+    </div>
+    <button
+      class="mt-3 btn btn-lg btn-light border rounded btn-block"
+      type="submit"
+    >
+      Create Account
+    </button>
+  </form>
+</div>
