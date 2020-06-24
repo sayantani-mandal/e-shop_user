@@ -14,6 +14,8 @@ import { CartComponent } from "./components/cart/cart.component";
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
 import { HttpClientModule } from "@angular/common/http";
+import { ReactiveFormsModule } from "@angular/forms";
+import { LoginVerifyComponent } from './components/login/login-verify/login-verify.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +30,14 @@ import { HttpClientModule } from "@angular/common/http";
     CartComponent,
     LoginComponent,
     SignupComponent,
+    LoginVerifyComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

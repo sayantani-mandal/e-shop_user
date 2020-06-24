@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { UserService } from "src/app/services/user/user.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-signup",
@@ -14,6 +15,8 @@ export class SignupComponent implements OnInit {
   email: string;
   mobileNumber: string;
   password: string;
+  error: string = null;
+  authStatus: Subscription;
 
   constructor(private userService: UserService) {}
 
@@ -48,12 +51,8 @@ export class SignupComponent implements OnInit {
       this.form.value.mobileNumber,
       this.form.value.password
     );
-    // this.userService.signup(
-    //   this.firstName,
-    //   this.lastName,
-    //   this.email,
-    //   this.mobileNumber,
-    //   this.password
-    // );
+    this.authStatus = this.userService.getAuthListener().subscribe((error) => {
+      this.error = error;
+    });
   }
 }

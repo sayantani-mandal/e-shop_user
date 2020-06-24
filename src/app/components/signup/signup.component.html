@@ -5,32 +5,31 @@
     (submit)="onSignup()"
   >
     <img class="mb-4" src="assets/cart.png" alt="" width="72" height="72" />
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail" class="sr-only">Email address</label>
+    <h1 class="h3 mb-3 font-weight-normal">Create Your E-Shop Account</h1>
+    <p *ngIf="error" class="alert alert-danger">{{ error }}</p>
+    <!-- <label for="inputEmail" class="sr-only">Email address</label> -->
     <!-- name -->
     <input
       type="text"
+      id="firstName"
       formControlName="firstName"
-      id="first name"
       class="form-control mb-1"
       placeholder="First Name"
       required
-      autofocus
     />
     <input
       type="text"
+      id="lastName"
       formControlName="lastName"
-      id="last name"
       class="form-control mb-1"
       placeholder="Last Name"
       required
-      autofocus
     />
     <!-- mobile number -->
     <input
-      type="number"
+      type="string"
+      id="mobileNumber"
       formControlName="mobileNumber"
-      id="phone"
       class="form-control mb-1"
       placeholder="Phone"
       required
@@ -45,8 +44,8 @@
     <!-- email -->
     <input
       type="email"
+      id="email"
       formControlName="email"
-      id="inputEmail"
       class="form-control mb-1"
       placeholder="Email address"
       required
@@ -54,8 +53,8 @@
     <label for="inputPassword" class="sr-only">Password</label>
     <input
       type="password"
+      id="password"
       formControlName="password"
-      id="inputPassword"
       class="form-control"
       placeholder="Password"
       required

@@ -5,13 +5,15 @@ import { UserOrdersComponent } from "./components/user-orders/user-orders.compon
 import { CartComponent } from "./components/cart/cart.component";
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
+import { LoginVerifyComponent } from "./components/login/login-verify/login-verify.component";
 
 const routes: Routes = [
-  { path: "", component: HomeComponent },
+  { path: "", redirectTo: "/home", pathMatch: "full" },
   { path: "home", component: HomeComponent },
   { path: "orders", component: UserOrdersComponent },
   { path: "cart", component: CartComponent },
   { path: "login", component: LoginComponent },
+  { path: "login/login-verify", component: LoginVerifyComponent },
   { path: "signup", component: SignupComponent },
 ];
 
