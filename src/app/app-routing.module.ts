@@ -6,6 +6,7 @@ import { CartComponent } from "./components/cart/cart.component";
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
 import { LoginVerifyComponent } from "./components/login/login-verify/login-verify.component";
+import { HeaderComponent } from "./components/header/header.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "/home", pathMatch: "full" },

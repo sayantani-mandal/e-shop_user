@@ -56,19 +56,26 @@ export class UserService {
         "http://localhost:3006/api/login",
         authData
       )
-      .subscribe((response) => {
-        console.log(response);
-        sessionStorage.setItem("otp", response.otp);
-        localStorage.setItem("token", response.token);
-        this.token = response.token;
-        this.otp = response.otp;
-        const otp = this.otp;
-        const token = this.token;
-        if (token && otp) {
-          alert("OTP is delivered to your registered Email");
-          this.router.navigate(["login/login-verify"]);
+      .subscribe(
+        (response) => {
+          console.log(response);
+          sessionStorage.setItem("otp", response.otp);
+          localStorage.setItem("token", response.token);
+          this.token = response.token;
+          this.otp = response.otp;
+          const otp = this.otp;
+          const token = this.token;
+          if (token && otp) {
+            alert("OTP is delivered to your registered Email");
+            this.router.navigate(["login/login-verify"]);
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.error = error.error.Error;
+          this.authStatusListener.next(this.error);
         }
-      });
+      );
   }
   getToken() {
     this.token = localStorage.getItem("token");
@@ -88,8 +95,20 @@ export class UserService {
       })
       .subscribe((response) => {
         console.log(response);
-        alert("you are successfully Logged in");
+        alert("You are successfully logged in");
         this.router.navigate(["home"]);
+      });
+  }
+
+  logout() {
+    this.http
+      .get("http://localhost:3006/api/login/logout", {
+        headers: { token: this.token },
+      })
+      .subscribe((response) => {
+        console.log(response);
+        localStorage.removeItem("token");
+        // this.router.navigate(["login"]);
       });
   }
 

@@ -1,1 +1,22 @@
-<p>filter works!</p>
+<div>
+  <h6>Category</h6>
+  <hr />
+  <div
+    class="custom-control custom-radio m-2"
+    *ngFor="let category of categories; index as i"
+  >
+    <input
+      type="radio"
+      value="{{ category._id }}"
+      id="a{{ i }}"
+      name="customRadio"
+      class="custom-control-input"
+    />
+    <label
+      (click)="categorySelected(category._id)"
+      class="custom-control-label"
+      for="a{{ i }}"
+      >{{ category.catName }}</label
+    >
+  </div>
+</div>

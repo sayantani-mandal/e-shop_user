@@ -14,8 +14,8 @@ import { CartComponent } from "./components/cart/cart.component";
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
 import { HttpClientModule } from "@angular/common/http";
-import { ReactiveFormsModule } from "@angular/forms";
-import { LoginVerifyComponent } from './components/login/login-verify/login-verify.component';
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { LoginVerifyComponent } from "./components/login/login-verify/login-verify.component";
 
 @NgModule({
   declarations: [
@@ -37,6 +37,7 @@ import { LoginVerifyComponent } from './components/login/login-verify/login-veri
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -4,9 +4,16 @@
     [formGroup]="form"
     (submit)="onSignup()"
   >
-    <img class="mb-4" src="assets/cart.png" alt="" width="72" height="72" />
+    <img
+      class="mb-4"
+      src="assets/cartimage.jpg"
+      alt=""
+      width="150"
+      height="150"
+    />
     <h1 class="h3 mb-3 font-weight-normal">Create Your E-Shop Account</h1>
     <p *ngIf="error" class="alert alert-danger">{{ error }}</p>
+
     <!-- <label for="inputEmail" class="sr-only">Email address</label> -->
     <!-- name -->
     <input
@@ -17,6 +24,32 @@
       placeholder="First Name"
       required
     />
+    <!-- <div
+      class="alert alert-danger"
+      style="padding: 0; text-align: left;"
+      *ngIf="
+        !form.get('firstName').valid &&
+        (form.get('firstName').touched || form.get('firstName').dirty)
+      "
+    >
+      First name is required
+    </div> -->
+    <div
+      class="alert alert-danger"
+      style="padding: 0; text-align: left;"
+      *ngIf="!first.valid && (first.touched || first.dirty)"
+    >
+      <div *ngIf="first.errors.required">
+        First name is required
+      </div>
+      <div *ngIf="first.errors.minlength">
+        First Name must be atleast 3 characters long
+      </div>
+      <div *ngIf="first.errors.pattern">
+        First Name pattern not valid
+      </div>
+    </div>
+
     <input
       type="text"
       id="lastName"
@@ -25,6 +58,20 @@
       placeholder="Last Name"
       required
     />
+
+    <div
+      class="alert alert-danger"
+      style="padding: 0; text-align: left;"
+      *ngIf="!Lastname.valid && (Lastname.touched || Lastname.dirty)"
+    >
+      <div *ngIf="Lastname.errors.required">
+        Last name is required
+      </div>
+      <div *ngIf="Lastname.errors.pattern">
+        Last Name pattern not valid
+      </div>
+    </div>
+
     <!-- mobile number -->
     <input
       type="string"
@@ -34,13 +81,19 @@
       placeholder="Phone"
       required
     />
-    <!-- address -->
-    <!-- <input
-      type="text"
-      id="address"
-      class="form-control mb-1"
-      placeholder="Address"
-    /> -->
+    <div
+      class="alert alert-danger"
+      style="padding: 0; text-align: left;"
+      *ngIf="!phone.valid && (phone.touched || phone.dirty)"
+    >
+      <div *ngIf="phone.errors.required">
+        Phone number is required
+      </div>
+      <div *ngIf="phone.errors.pattern">
+        Phone number must be Indian
+      </div>
+    </div>
+
     <!-- email -->
     <input
       type="email"
@@ -50,6 +103,21 @@
       placeholder="Email address"
       required
     />
+    <div
+      class="alert alert-danger"
+      style="padding: 0; text-align: left;"
+      *ngIf="
+        !emailAddress.valid && (emailAddress.touched || emailAddress.dirty)
+      "
+    >
+      <div *ngIf="emailAddress.errors.required">
+        Email required
+      </div>
+      <div *ngIf="emailAddress.errors.email">
+        Enter proper email..!!
+      </div>
+    </div>
+    <!-- password -->
     <label for="inputPassword" class="sr-only">Password</label>
     <input
       type="password"
@@ -59,12 +127,31 @@
       placeholder="Password"
       required
     />
+    <div
+      class="alert alert-danger"
+      style="padding: 0; text-align: left;"
+      *ngIf="!Password.valid && (Password.touched || Password.dirty)"
+    >
+      <div *ngIf="Password.errors.required">
+        Password required
+      </div>
+      <div *ngIf="Password.errors.minlength">
+        Password must contain atleast 8 characters
+      </div>
+      <div *ngIf="Password.errors.pattern">
+        Password must contain one uppercase,one lower case,one special character
+        and one number
+      </div>
+    </div>
+
     <div class="checkbox mb-3">
       <label> <input type="checkbox" value="remember-me" /> Remember me </label>
     </div>
     <button
       class="mt-3 btn btn-lg btn-light border rounded btn-block"
       type="submit"
+      style="color: chocolate;"
+      [disabled]="!form.valid"
     >
       Create Account
     </button>
