@@ -16,7 +16,8 @@ interface CartItem {
 })
 export class CartComponent implements OnInit {
   cart;
-  cartItems: CartItem[];
+  total = 0;
+  cartItems: CartItem[] = [];
 
   constructor(
     private cartService: CartService,
@@ -36,6 +37,11 @@ export class CartComponent implements OnInit {
         observables.push(
           this.productService.getProductById(id).pipe(
             map((product) => {
+              console.log();
+              //this.total += product.price * cart[id];
+              console.log(product.hasOwnProperty("price"));
+              console.log(product);
+
               let item: CartItem = {
                 product: product,
                 quantity: cart[id],
@@ -45,19 +51,25 @@ export class CartComponent implements OnInit {
           )
         );
 
-        // .subscribe((product) => {
-        //   let item: CartItem = {
-        //     product: product,
-        //     quantity: cart[id],
-        //   };
-        //   this.cartItems.push(item);
-        //   console.log(this.cartItems);
-        // });
+        // // .subscribe((product) => {
+        // //   let item: CartItem = {
+        // //     product: product,
+        // //     quantity: cart[id],
+        // //   };
+        // //   this.cartItems.push(item);
+        // //   console.log(this.cartItems);
+        // // });
       }
       forkJoin(observables).subscribe((cartItems: CartItem[]) => {
         console.log(cartItems);
         this.cartItems = cartItems;
       });
+      // forkJoin(observables).subscribe({
+      //   next: (cartItems: CartItem[]) => {
+      //     this.cartItems = cartItems;
+      //     console.log(cartItems);
+      //   },
+      // });
     });
   }
 }
