@@ -30,8 +30,12 @@ export class CartComponent implements OnInit {
 
   subscribeCart() {
     this.cartService.cartObservable.subscribe((cart) => {
-      this.cartItems = [];
+      // this.cartItems = [];
       let observables = [];
+      this.total = 0;
+      if (Object.keys(cart).length == 0) {
+        this.cartItems = [];
+      }
       for (let id in cart) {
         console.log(id);
         observables.push(

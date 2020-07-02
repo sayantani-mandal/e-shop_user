@@ -13,9 +13,11 @@ import { UserOrdersComponent } from "./components/user-orders/user-orders.compon
 import { CartComponent } from "./components/cart/cart.component";
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { LoginVerifyComponent } from "./components/login/login-verify/login-verify.component";
+import { ProductQuantityComponent } from "./components/product-quantity/product-quantity.component";
+import { TokenInterceptorService } from "./services/interceptor/token-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { LoginVerifyComponent } from "./components/login/login-verify/login-veri
     LoginComponent,
     SignupComponent,
     LoginVerifyComponent,
+    ProductQuantityComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,13 @@ import { LoginVerifyComponent } from "./components/login/login-verify/login-veri
     ReactiveFormsModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

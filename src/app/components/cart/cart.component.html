@@ -29,7 +29,9 @@
           />
         </td>
         <td>{{ item.product.proName }}</td>
-        <td>{{ item.quantity }}</td>
+        <td>
+          <app-product-quantity [product]="item.product"></app-product-quantity>
+        </td>
         <td>₹{{ item.product.price }}</td>
         <td>₹{{ item.quantity * item.product.price }}</td>
       </tr>
@@ -43,13 +45,17 @@
       </tr>
     </tfoot>
   </table>
+  <hr />
+  <hr />
 </div>
 
 <ng-template #noItems>
   <div class="mt-4 pt-4">
     <div class="jumbotron bg-white border container p-4 m-4 mx-auto">
       <h1 class="display-4">Cart</h1>
-      <p class="lead">Go to store to add item into the cart</p>
+      <a class="lead" routerLink="/home">
+        Click here to -- Go to store to add item into the cart
+      </a>
       <hr class="my-4" />
       <p>Cart is empty</p>
     </div>
