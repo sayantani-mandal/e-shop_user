@@ -10,6 +10,7 @@ import { CartService } from "src/app/services/cart/cart.service";
 export class HeaderComponent implements OnInit {
   isSelected: boolean = false;
   numberOfItems: number = 0;
+  isLoggedin = false;
 
   constructor(
     private userService: UserService,
@@ -21,6 +22,25 @@ export class HeaderComponent implements OnInit {
       console.log(cart);
       this.numberOfItems = Object.keys(cart).length;
     });
+
+    this.userService.loginObservable.subscribe({
+      next: () => {
+        let token = this.userService.getToken();
+        let otp = this.userService.getOtpFromLocalstorage();
+        console.log(otp);
+        if (token && otp != null) {
+          this.isLoggedin = true;
+        } else {
+          this.isLoggedin = false;
+        }
+      },
+    });
+    // let token = this.userService.getToken();
+    // if (token != null) {
+    //   this.isLoggedin = true;
+    // } else {
+    //   this.isLoggedin = false;
+    // }
   }
 
   onLogout() {

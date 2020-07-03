@@ -26,11 +26,11 @@ export class SignupComponent implements OnInit {
         validators: [
           Validators.required,
           Validators.minLength(3),
-          Validators.pattern("[A-Za-z]{4}"),
+          Validators.pattern("[A-Za-z]{3,}"),
         ],
       }),
       lastName: new FormControl(null, {
-        validators: [Validators.required, Validators.pattern("[A-Za-z]{3}")],
+        validators: [Validators.required, Validators.pattern("[A-Za-z]{3,}")],
       }),
       email: new FormControl(null, {
         validators: [Validators.required, Validators.email],
@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit {
           Validators.required,
           Validators.minLength(8),
           Validators.pattern(
-            "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}$"
+            "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{7,}$"
           ),
         ],
       }),

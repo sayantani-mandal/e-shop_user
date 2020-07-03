@@ -9,7 +9,14 @@ import { LoginVerifyComponent } from "./components/login/login-verify/login-veri
 import { HeaderComponent } from "./components/header/header.component";
 
 const routes: Routes = [
-  { path: "", redirectTo: "/home", pathMatch: "full" },
+  // { path: "", redirectTo: "/home", pathMatch: "full" },
+  // { path: "home", component: HomeComponent },
+  // { path: "orders", component: UserOrdersComponent },
+  // { path: "cart", component: CartComponent },
+  // { path: "login", component: LoginComponent },
+  // { path: "login/login-verify", component: LoginVerifyComponent },
+  // { path: "signup", component: SignupComponent },
+  { path: "", component: HomeComponent },
   { path: "home", component: HomeComponent },
   { path: "orders", component: UserOrdersComponent },
   { path: "cart", component: CartComponent },

@@ -43,11 +43,11 @@ import { TokenInterceptorService } from "./services/interceptor/token-intercepto
     FormsModule,
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptorService,
-      multi: true,
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: TokenInterceptorService,
+    //   multi: true,
+    // },
   ],
   bootstrap: [AppComponent],
 })

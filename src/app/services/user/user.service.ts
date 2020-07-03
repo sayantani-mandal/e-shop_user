@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Subject } from "rxjs";
+import { Subject, BehaviorSubject } from "rxjs";
 import { Router, ActivatedRoute } from "@angular/router";
 
 @Injectable({
@@ -9,15 +9,23 @@ import { Router, ActivatedRoute } from "@angular/router";
 export class UserService {
   private token: string;
   private otp: string;
+  private new_otp: string;
   error: string = null;
   private userSignupUrl = "http://localhost:3006/api/users";
   private authStatusListener = new Subject<string>();
+  private _loginObservable: BehaviorSubject<Object>;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this._loginObservable = new BehaviorSubject({});
+  }
+
+  public get loginObservable() {
+    return this._loginObservable;
+  }
 
   signup(
     firstName: string,
@@ -61,6 +69,8 @@ export class UserService {
           console.log(response);
           sessionStorage.setItem("otp", response.otp);
           localStorage.setItem("token", response.token);
+          this._loginObservable.next({});
+          console.log(response.token);
           this.token = response.token;
           this.otp = response.otp;
           const otp = this.otp;
@@ -85,18 +95,38 @@ export class UserService {
     this.otp = sessionStorage.getItem("otp");
     return this.otp;
   }
+  getOtpFromLocalstorage() {
+    this.new_otp = localStorage.getItem("otp");
+    return this.new_otp;
+  }
+
+  // verify() {
+  //   console.log(this.otp);
+  //   console.log(this.token);
+  //   this.http
+  //     .get("http://localhost:3006/api/login/show", {
+  //       headers: { token: this.token, otp: this.otp },
+  //     })
+  //     .subscribe((response) => {
+  //       console.log(response);
+  //       alert("You are successfully logged in");
+  //       this.router.navigate(["home"]);
+  //     });
+  // }
 
   verify() {
     console.log(this.otp);
     console.log(this.token);
     this.http
-      .get("http://localhost:3006/api/login/show", {
+      .get<{ otp: string }>("http://localhost:3006/api/login/show", {
         headers: { token: this.token, otp: this.otp },
       })
       .subscribe((response) => {
         console.log(response);
+        localStorage.setItem("otp", response.otp);
+        this._loginObservable.next({});
         alert("You are successfully logged in");
-        this.router.navigate(["home"]);
+        this.router.navigate([""]);
       });
   }
 
@@ -108,7 +138,10 @@ export class UserService {
       .subscribe((response) => {
         console.log(response);
         localStorage.removeItem("token");
-        // this.router.navigate(["login"]);
+        localStorage.removeItem("otp");
+        this._loginObservable.next({});
+        alert("You are logged out successfully ");
+        this.router.navigate(["login"]);
       });
   }
 
