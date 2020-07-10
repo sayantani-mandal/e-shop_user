@@ -1,4 +1,4 @@
-<div class="card" style="width: 18rem;">
+<!-- <div class="card" style="width: 18rem;">
   <img
     src="http://localhost:3006/{{ product.proImages[0].proImage }}"
     class="card-img-top"
@@ -18,7 +18,7 @@
       >Add to Cart</a
     >
     <ng-template #cartQuantity>
-      <app-product-quantity [product]="product"></app-product-quantity>
+      <app-product-quantity [product]="product"></app-product-quantity> -->
       <!-- <div class="row no-gutters">
         <div class="col-2">
           <button (click)="minusQuantity()" class="btn btn-block btn-secondary">
@@ -32,6 +32,31 @@
           </button>
         </div>
       </div> -->
-    </ng-template>
+
+    <!-- </ng-template>
   </div>
-</div>
+</div> -->
+
+
+ <div class="card" style="width: 18rem;">
+  <img
+  src="http://localhost:3006/{{ product.productImage[0].proImage }}"
+   
+    class="card-img-top"
+    alt="..."
+  />
+  <div class="card-body">
+    <h6 class="card-title">{{ product.name }}</h6>
+    <p class="card-text">
+      <b>$ {{ product.price }}</b>
+    </p>
+  </div>
+  <div class="card-footer p-0">
+    <a
+      *ngIf="!quantity; else cartQuantity"
+      class="btn-block btn btn-block btn-light"
+      (click)="addToCart()"
+      >Add to Cart</a
+    >
+    <ng-template #cartQuantity>
+      <app-product-quantity [product]="product"></app-product-quantity> 

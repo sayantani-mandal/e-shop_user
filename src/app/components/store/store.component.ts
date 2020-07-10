@@ -16,23 +16,36 @@ export class StoreComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.productService.getPro().subscribe((res) => {
-    //   this.products = res;
-    //   console.log(this.products);
-    // });
+
     this.route.queryParamMap.subscribe({
       next: (paramMap: ParamMap) => {
         let categoryId = paramMap.get("category");
         console.log(categoryId);
+        this.collectProducts({category : categoryId});
       },
     });
-    this.collectProducts();
+   
+
   }
 
-  collectProducts() {
-    this.productService.getPro().subscribe((res) => {
-      this.products = res;
-      console.log(this.products);
-    });
+  // collectProducts() {
+  //   this.productService.getPro().subscribe((res) => {
+  //     this.products = res;
+  //     console.log(this.products);
+  //   });
+  // }
+
+  collectProducts(params){
+    this.productService.getProductByCategory(params).subscribe({
+      next : (products) =>{
+        console.log(products);
+        this.products = products
+      },
+      error:(error) =>{
+        console.log(error);
+        
+      }
+    })
   }
+  
 }

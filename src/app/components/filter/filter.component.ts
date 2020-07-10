@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
 })
 export class FilterComponent implements OnInit {
   categories: any;
+  min : number[] = []
 
   constructor(
     private categoryService: CategoryService,
@@ -16,10 +17,11 @@ export class FilterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.categoryService.getCategories().subscribe((res) => {
-    //   this.categories = res;
-    //   console.log(this.categories);
-    // });
+    Array(10).fill('').forEach((e,index) => {
+      console.log((index+1)*100);
+      
+    })
+    
     this.collectAllCategory();
   }
 
