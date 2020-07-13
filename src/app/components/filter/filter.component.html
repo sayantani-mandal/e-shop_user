@@ -3,6 +3,23 @@
   <h6>Category</h6>
   <hr />
   <div
+  class="custom-control custom-radio m-2"
+>
+  <input
+    type="radio"
+    value="{{ category._id }}"
+    id="a"
+    name="customRadio"
+    class="custom-control-input"
+  />
+  <label
+    (click)="categorySelected('')"
+    class="custom-control-label"
+    for="a"
+    >All</label
+  >
+</div>
+  <div
     class="custom-control custom-radio m-2"
     *ngFor="let category of categories; index as i"
   >
@@ -27,14 +44,22 @@
 <div>
 <h6>Price</h6>
 <hr>
-<select name="min" class="form-control mb-2" id="">
-  <option value="100">Min Price</option>
+
+<select #minPrice name="min" (change)="setMaxValue(minPrice.value)" class="form-control mb-2" id="">
+  <option value="min">Min Price</option>
+  <option *ngFor="let m of min" value="{{m}}">{{m}}</option>
 </select>
-<select name="max" class="form-control mb-2" id="">
-  <option value="100">Max Price</option>
+<select #maxPrice name="max" class="form-control mb-2" id="">
+  <option value="max">Max Price</option>
+  <option *ngFor="let m of max" value="{{m}}">{{m}}</option>
 </select>
+
+
 <div class="mb-2">
-  <button class="btn-block btn btn-sm btn-light border rounded">Filter</button>
+  <button (click)="filter(minPrice.value , maxPrice.value)" class="btn-block btn btn-sm btn-light border rounded">Filter</button>
+</div>
+<div class="mb-2">
+  <button (click)="onReset()" class="btn-block btn btn-sm btn-light border rounded">Reset</button>
 </div>
 </div>
 </div>
