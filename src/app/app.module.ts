@@ -18,6 +18,7 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { LoginVerifyComponent } from "./components/login/login-verify/login-verify.component";
 import { ProductQuantityComponent } from "./components/product-quantity/product-quantity.component";
 import { TokenInterceptorService } from "./services/interceptor/token-interceptor.service";
+import { ModalModule } from "ngx-bootstrap/modal";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { TokenInterceptorService } from "./services/interceptor/token-intercepto
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    ModalModule.forRoot(),
   ],
   providers: [
     // {

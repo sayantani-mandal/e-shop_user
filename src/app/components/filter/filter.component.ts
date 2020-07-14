@@ -82,9 +82,9 @@ export class FilterComponent implements OnInit {
   onReset(){
   this.router.navigate([""]);
 
-  setTimeout(()=>{
-    window.location.reload();
-  }, 100);
+  // setTimeout(()=>{
+  //   window.location.reload();
+  // }, 100);
  
   }
 }

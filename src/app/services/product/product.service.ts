@@ -1,15 +1,14 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { UserService } from "../user/user.service";
-import { map } from 'rxjs/operators';
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProductService {
-
- // getProductUrl = "http://localhost:3006/api/products/user";
-  url="http://localhost:3006/api/products/user/getAllProducts"
+  // getProductUrl = "http://localhost:3006/api/products/user";
+  url = "http://localhost:3006/api/products/user/getAllProducts";
   constructor(private http: HttpClient, private userService: UserService) {}
 
   // getPro() {
@@ -18,29 +17,25 @@ export class ProductService {
   //   });
   // }
 
-   getProductByCategory(params) {
-
-    let query = new URLSearchParams()
-    if(params["category"]){
-      query.append("category" , params["category"])
-
+  getProductByCategory(params) {
+    let query = new URLSearchParams();
+    if (params["category"]) {
+      query.append("category", params["category"]);
     }
-    if(params["min"]){
-      query.append("min" , params["min"])
-
+    if (params["min"]) {
+      query.append("min", params["min"]);
     }
-    if(params["max"]){
-      query.append("max" , params["max"])
-
+    if (params["max"]) {
+      query.append("max", params["max"]);
     }
-    
-   console.log(query.toString());
+
+    console.log(query.toString());
 
     return this.http.get(`${this.url}?${query.toString()}`).pipe(
-      map((result : { count : number , products : any}) => {
-        return result.products
+      map((result: { count: number; products: any }) => {
+        return result.products;
       })
-    )
+    );
   }
 
   // getProductById(id: string) {
@@ -49,9 +44,9 @@ export class ProductService {
 
   getProductById(id: string) {
     return this.http.get(`${this.url}/${id}`).pipe(
-      map((result) => {      
-        console.log(result);   
-        return <{product:any}>result
+      map((result) => {
+        console.log(result);
+        return <{ product: any }>result;
       })
     );
   }

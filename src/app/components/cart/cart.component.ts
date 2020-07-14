@@ -3,6 +3,7 @@ import { CartService } from "src/app/services/cart/cart.service";
 import { ProductService } from "src/app/services/product/product.service";
 import { forkJoin, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
+import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 
 interface CartItem {
   product: any;
@@ -19,9 +20,11 @@ export class CartComponent implements OnInit {
   total = 0;
   cartItems: CartItem[] = [];
   cartSubscription: Subscription;
+  modalRef: BsModalRef;
 
   constructor(
     private cartService: CartService,
+    private modalService: BsModalService,
     private productService: ProductService
   ) {}
 
@@ -34,7 +37,7 @@ export class CartComponent implements OnInit {
   }
 
   subscribeCart() {
-    let total = 0
+    let total = 0;
     this.cartSubscription = this.cartService.cartObservable.subscribe(
       (cart) => {
         let observables = [];
@@ -49,7 +52,7 @@ export class CartComponent implements OnInit {
               map((product) => {
                 //console.log();
                 //this.total += product.price * cart[id];
-               console.log(product.hasOwnProperty("price"));
+                console.log(product.hasOwnProperty("price"));
                 console.log(product);
 
                 let item: CartItem = {
@@ -71,13 +74,19 @@ export class CartComponent implements OnInit {
     );
   }
 
+  //openModal
+  openModal(form) {
+    this.modalRef = this.modalService.show(form, {
+      animated: true,
+      class: "modal-lg",
+    });
+  }
 
+  //checkOut
+  checkOut() {
+    console.log("checkout");
+  }
 }
-
-
-
-
-
 
 // import { Component, OnInit } from "@angular/core";
 // import { CartService } from "src/app/services/cart/cart.service";
@@ -129,10 +138,10 @@ export class CartComponent implements OnInit {
 //               return item
 //           }))
 //           )
-         
+
 //          //  .subscribe({
 //          //    next:(product) => {
-             
+
 //          //      let item : CartItem = {
 //          //        product : product,
 //          //        quantity : cart[id]
@@ -141,21 +150,18 @@ export class CartComponent implements OnInit {
 //          //      console.log(this.cartItems);
 //          //    }
 //          //  })
-          
+
 //         }
 //        forkJoin(observables).subscribe({
 //          next: (cartItems : CartItem[]) =>{
 //            this.cartItems = cartItems
 //            console.log(cartItems);
-           
-           
+
 //          }
 //        })
 //       }
 //     })
-   
+
 //   }
 
-
 //}
-

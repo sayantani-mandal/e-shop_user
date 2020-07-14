@@ -16,18 +16,15 @@ export class StoreComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
     this.route.queryParamMap.subscribe({
       next: (paramMap: ParamMap) => {
         let categoryId = paramMap.get("category");
         let min = paramMap.get("min");
         let max = paramMap.get("max");
         console.log(categoryId);
-        this.collectProducts({category : categoryId , min , max});
+        this.collectProducts({ category: categoryId, min, max });
       },
     });
-   
-
   }
 
   // collectProducts() {
@@ -37,17 +34,15 @@ export class StoreComponent implements OnInit {
   //   });
   // }
 
-  collectProducts(params){
+  collectProducts(params) {
     this.productService.getProductByCategory(params).subscribe({
-      next : (products) =>{
+      next: (products) => {
         console.log(products);
-        this.products = products
+        this.products = products;
       },
-      error:(error) =>{
+      error: (error) => {
         console.log(error);
-        
-      }
-    })
+      },
+    });
   }
-  
 }
