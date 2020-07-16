@@ -1,9 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { CartService } from "src/app/services/cart/cart.service";
-import { ProductService } from "src/app/services/product/product.service";
-import { forkJoin, Subscription } from "rxjs";
-import { map } from "rxjs/operators";
-import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CartService } from 'src/app/services/cart/cart.service';
+import { ProductService } from 'src/app/services/product/product.service';
+import { forkJoin, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  OrderInfo,
+  ProductInfo,
+  OrderService,
+} from 'src/app/services/order/order.service';
+import { Router } from '@angular/router';
 
 interface CartItem {
   product: any;
@@ -11,11 +18,15 @@ interface CartItem {
 }
 
 @Component({
-  selector: "app-cart",
-  templateUrl: "./cart.component.html",
-  styleUrls: ["./cart.component.css"],
+  selector: 'app-cart',
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.css'],
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
+  forms: FormGroup;
+  firstName: string;
+  lastName: string;
+  address: string;
   cart;
   total = 0;
   cartItems: CartItem[] = [];
@@ -25,11 +36,26 @@ export class CartComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private modalService: BsModalService,
-    private productService: ProductService
+    private productService: ProductService,
+    private orderService: OrderService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.subscribeCart();
+    this.forms = new FormGroup({
+      firstName: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(3)],
+      }),
+      lastName: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(3)],
+      }),
+      address: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(5)],
+      }),
+    });
+
+    // this.subscribeCart();
   }
 
   ngOnDestroy() {
@@ -40,30 +66,33 @@ export class CartComponent implements OnInit {
     let total = 0;
     this.cartSubscription = this.cartService.cartObservable.subscribe(
       (cart) => {
-        let observables = [];
+        const observables = [];
         total = 0;
-        if (Object.keys(cart).length == 0) {
+        if (Object.keys(cart).length === 0) {
           this.cartItems = [];
         }
-        for (let id in cart) {
-          console.log(id);
-          observables.push(
-            this.productService.getProductById(id).pipe(
-              map((product) => {
-                //console.log();
-                //this.total += product.price * cart[id];
-                console.log(product.hasOwnProperty("price"));
-                console.log(product);
+        for (const id in cart) {
+          if (cart.hasOwnProperty(id)) {
+            // linting_error
+            console.log(id);
+            observables.push(
+              this.productService.getProductById(id).pipe(
+                map((product) => {
+                  // console.log();
+                  // this.total += product.price * cart[id];
+                  console.log(product.hasOwnProperty('price'));
+                  console.log(product);
 
-                let item: CartItem = {
-                  product: product,
-                  quantity: cart[id],
-                };
-                total += item.product.price * cart[id];
-                return item;
-              })
-            )
-          );
+                  const item: CartItem = {
+                    product,
+                    quantity: cart[id],
+                  };
+                  total += item.product.price * cart[id];
+                  return item;
+                })
+              )
+            );
+          } // add_for_linting-error
         }
         forkJoin(observables).subscribe((cartItems: CartItem[]) => {
           console.log(cartItems);
@@ -74,94 +103,50 @@ export class CartComponent implements OnInit {
     );
   }
 
-  //openModal
+  // openModal
   openModal(form) {
     this.modalRef = this.modalService.show(form, {
       animated: true,
-      class: "modal-lg",
+      class: 'modal-lg',
     });
   }
-
-  //checkOut
+  // checkOut
   checkOut() {
-    console.log("checkout");
+    if (this.forms.invalid) {
+      console.log(this.forms);
+      return;
+    }
+
+    let orderInfo: OrderInfo;
+    let productInfos: ProductInfo[] = [];
+    this.cartItems.forEach((e) => {
+      console.log(e);
+
+      productInfos.push({
+        price: e.product.price,
+        productId: e.product._id,
+        quantity: e.quantity,
+      });
+    });
+
+    orderInfo = {
+      firstName: this.forms.value.firstName,
+      lastName: this.forms.value.lastName,
+      address: this.forms.value.address,
+      products: productInfos,
+    };
+
+    console.log({ orderInfo });
+
+    this.orderService.placeOrder(orderInfo).subscribe((res) => {
+      console.log(res);
+      this.router.navigate(['orders']);
+    });
+
+    // console.log({
+    //   firstName: this.forms.value.firstName,
+    //   lastName: this.forms.value.lastName,
+    //   address: this.forms.value.address,
+    // });
   }
 }
-
-// import { Component, OnInit } from "@angular/core";
-// import { CartService } from "src/app/services/cart/cart.service";
-// import { ProductService } from "src/app/services/product/product.service";
-// import { forkJoin, Subscription } from "rxjs";
-// import { map } from "rxjs/operators";
-
-// interface CartItem {
-//   product: any;
-//   quantity: number;
-// }
-
-// @Component({
-//   selector: "app-cart",
-//   templateUrl: "./cart.component.html",
-//   styleUrls: ["./cart.component.css"],
-// })
-// export class CartComponent implements OnInit {
-//   cart;
-//   total = 0;
-//   cartItems: CartItem[] = [];
-//   cartSubscription: Subscription;
-
-//   constructor(
-//     private cartService: CartService,
-//     private productService: ProductService
-//   ) {}
-
-//   ngOnInit() {
-//     this.subscribeCart()
-//   }
-
-//   // ngOnDestroy() {
-//   //   this.cartSubscription.unsubscribe();
-//   // }
-
-//   subscribeCart() {
-//     this.cartService.cartObservable.subscribe({
-//       next : (cart) => {
-//        let observables =[]
-//         for(let id in cart){
-//           console.log(id);
-//           observables.push( this.productService.getProductById(id)
-//           .pipe(map(product => {
-//               let item : CartItem = {
-//                 product : product,
-//                 quantity : cart[id]
-//               }
-//               return item
-//           }))
-//           )
-
-//          //  .subscribe({
-//          //    next:(product) => {
-
-//          //      let item : CartItem = {
-//          //        product : product,
-//          //        quantity : cart[id]
-//          //      }
-//          //      this.cartItems.push(item);
-//          //      console.log(this.cartItems);
-//          //    }
-//          //  })
-
-//         }
-//        forkJoin(observables).subscribe({
-//          next: (cartItems : CartItem[]) =>{
-//            this.cartItems = cartItems
-//            console.log(cartItems);
-
-//          }
-//        })
-//       }
-//     })
-
-//   }
-
-//}

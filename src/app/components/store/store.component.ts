@@ -1,11 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { ProductService } from "src/app/services/product/product.service";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { ProductService } from 'src/app/services/product/product.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
-  selector: "app-store",
-  templateUrl: "./store.component.html",
-  styleUrls: ["./store.component.css"],
+  selector: 'app-store',
+  templateUrl: './store.component.html',
+  styleUrls: ['./store.component.css'],
 })
 export class StoreComponent implements OnInit {
   products: any;
@@ -18,9 +18,9 @@ export class StoreComponent implements OnInit {
   ngOnInit() {
     this.route.queryParamMap.subscribe({
       next: (paramMap: ParamMap) => {
-        let categoryId = paramMap.get("category");
-        let min = paramMap.get("min");
-        let max = paramMap.get("max");
+        const categoryId = paramMap.get('category');
+        const min = paramMap.get('min');
+        const max = paramMap.get('max');
         console.log(categoryId);
         this.collectProducts({ category: categoryId, min, max });
       },

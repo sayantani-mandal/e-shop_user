@@ -1,16 +1,16 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { CartService } from "src/app/services/cart/cart.service";
+import { Component, OnInit, Input } from '@angular/core';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 @Component({
-  selector: "app-product-card",
-  templateUrl: "./product-card.component.html",
-  styleUrls: ["./product-card.component.css"],
+  selector: 'app-product-card',
+  templateUrl: './product-card.component.html',
+  styleUrls: ['./product-card.component.css'],
 })
 export class ProductCardComponent implements OnInit {
-  @Input("product")
+  @Input()
   product: any;
 
-  quantity: number = 0;
+  quantity = 0;
 
   constructor(private cartService: CartService) {}
 

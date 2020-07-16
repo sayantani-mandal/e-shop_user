@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { UserService } from "src/app/services/user/user.service";
-import { CartService } from "src/app/services/cart/cart.service";
+import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user/user.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 @Component({
-  selector: "app-header",
-  templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.css"],
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  isSelected: boolean = false;
-  numberOfItems: number = 0;
+  isSelected = false;
+  numberOfItems = 0;
   isLoggedin = false;
 
   constructor(
@@ -25,8 +25,8 @@ export class HeaderComponent implements OnInit {
 
     this.userService.loginObservable.subscribe({
       next: () => {
-        let token = this.userService.getToken();
-        let otp = this.userService.getOtpFromLocalstorage();
+        const token = this.userService.getToken();
+        const otp = this.userService.getOtpFromLocalstorage();
         console.log(otp);
         if (token && otp != null) {
           this.isLoggedin = true;
