@@ -27,6 +27,11 @@ export class CartService {
     return this._cartObservable;
   }
 
+  clearCart() {
+    localStorage.removeItem('cart');
+    this._cartObservable.next({});
+  }
+
   addToCart(product: any) {
     const quantity = this.cart[product._id];
     if (quantity) {
@@ -60,6 +65,4 @@ export class CartService {
     this.writeCartData();
     this._cartObservable.next(this.cart);
   }
-
-  removeFromCart(product: any) {}
 }

@@ -45,10 +45,18 @@ export class CartComponent implements OnInit, OnDestroy {
     this.subscribeCart();
     this.forms = new FormGroup({
       firstName: new FormControl(null, {
-        validators: [Validators.required, Validators.minLength(3)],
+        validators: [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern('[A-Za-z]{3,}'),
+        ],
       }),
       lastName: new FormControl(null, {
-        validators: [Validators.required, Validators.minLength(3)],
+        validators: [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern('[A-Za-z]{3,}'),
+        ],
       }),
       address: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(5)],
@@ -56,6 +64,18 @@ export class CartComponent implements OnInit, OnDestroy {
     });
 
     // this.subscribeCart();
+  }
+
+  get fName() {
+    return this.forms.get('firstName');
+  }
+
+  get lName() {
+    return this.forms.get('lastName');
+  }
+
+  get Address() {
+    return this.forms.get('address');
   }
 
   ngOnDestroy() {
@@ -138,9 +158,16 @@ export class CartComponent implements OnInit, OnDestroy {
 
     console.log({ orderInfo });
 
-    this.orderService.placeOrder(orderInfo).subscribe((res) => {
-      console.log(res);
-      this.router.navigate(['orders']);
+    this.orderService.placeOrder(orderInfo).subscribe({
+      next: (result) => {
+        console.log(result);
+        this.modalRef.hide();
+        this.cartService.clearCart();
+        this.router.navigate(['orders']);
+      },
+      error: (err) => {
+        console.log({ err: 'Can not place order..' });
+      },
     });
 
     // console.log({
