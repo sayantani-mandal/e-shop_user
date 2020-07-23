@@ -53,8 +53,10 @@ export class FilterComponent implements OnInit {
 
   collectAllCategory() {
     this.categoryService.getCategories().subscribe((res) => {
+      console.log(res);
+
       this.categories = res;
-      console.log(this.categories);
+      // console.log(this.categories);
     });
   }
 

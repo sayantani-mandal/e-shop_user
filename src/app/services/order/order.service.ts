@@ -13,21 +13,15 @@ export class OrderService {
   constructor(private http: HttpClient, private userService: UserService) {}
 
   placeOrder(orderInfo: OrderInfo) {
-    return this.http.post(this.placeOrderUrl, orderInfo, {
-      headers: { token: this.userService.getToken() },
-    });
+    return this.http.post(this.placeOrderUrl, orderInfo);
   }
 
   getUserOrders() {
-    return this.http
-      .get(this.userAllOrders, {
-        headers: { token: this.userService.getToken() },
+    return this.http.get(this.userAllOrders).pipe(
+      map((result: { count: number; orders: any }) => {
+        return result.orders;
       })
-      .pipe(
-        map((result: { count: number; orders: any }) => {
-          return result.orders;
-        })
-      );
+    );
   }
 }
 

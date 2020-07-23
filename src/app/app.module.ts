@@ -17,8 +17,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginVerifyComponent } from './components/login/login-verify/login-verify.component';
 import { ProductQuantityComponent } from './components/product-quantity/product-quantity.component';
-import { TokenInterceptorService } from './services/interceptor/token-interceptor.service';
+// import { TokenInterceptorService } from './services/interceptor/token-interceptor.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { HeaderInterceptorService } from './interceptor/header-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -45,11 +46,11 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ModalModule.forRoot(),
   ],
   providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: TokenInterceptorService,
-    //   multi: true,
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeaderInterceptorService,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
